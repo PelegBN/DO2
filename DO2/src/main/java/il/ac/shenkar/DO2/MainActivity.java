@@ -20,23 +20,26 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     public static ListSingleton once;
+    private ItemListBaseAdapter ILBA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         once=ListSingleton.getInstance(this);
         setContentView(R.layout.activity_main);
 
+        updateListView();
+        ILBA = new ItemListBaseAdapter(this, once.getInstance(this).getItems());
+
         final ListView listView = (ListView) findViewById(R.id.listV_main);
-        listView.setAdapter(new ItemListBaseAdapter(this, once.getItems()));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                ItemDetails selectedItem = (ItemDetails) listView.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, "You have chosen : " + " " +
-                        selectedItem.getName(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
+
+    public void updateListView(){
+        ListView lv = (ListView) findViewById(R.id.listV_main);
+        ILBA = new ItemListBaseAdapter(this, once.getInstance(this).getItems());
+        lv.setAdapter(ILBA);
+    }
+
 
     public void createNew(View view) {
         // Do something in response to button
@@ -49,5 +52,8 @@ public class MainActivity extends Activity {
         int pos = listView.getPositionForView(view);
 
         once.removeTask(pos);
+
+        ILBA.notifyDataSetChanged();
+        updateListView();
     }
 }
