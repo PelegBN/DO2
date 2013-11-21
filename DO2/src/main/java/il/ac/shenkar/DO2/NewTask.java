@@ -11,12 +11,12 @@ import android.widget.EditText;
  * Created by BNP on 04/11/13.
  */
 public class NewTask extends Activity {
-        public static ListSingleton once;
+        public static DatabaseHandler DB;
         @SuppressLint("NewApi")
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
-                once=ListSingleton.getInstance(this);
+                DB=DatabaseHandler.getInstance(this);
                 setContentView(R.layout.new_task);
             }
 
@@ -28,11 +28,12 @@ public class NewTask extends Activity {
             return super.onOptionsItemSelected(item);
         }
 
-    public void back(View view){
+    public void createTask(View view){
         EditText editText=(EditText) findViewById(R.id.new_task);
         if (editText.getText().toString().isEmpty()) return;
-        String task=editText.getText().toString();
-        once.addTask(task);
+        // String task=editText.getText().toString();
+        ItemDetails task=new ItemDetails(editText.getText().toString());
+        DB.addTask(task);
         editText.setText("");
         finish();
     }

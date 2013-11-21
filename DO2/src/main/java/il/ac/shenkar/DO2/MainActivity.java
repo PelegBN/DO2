@@ -19,24 +19,29 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    public static ListSingleton once;
+    public static DatabaseHandler DB;
     private ItemListBaseAdapter ILBA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        once=ListSingleton.getInstance(this);
+        DB=DatabaseHandler.getInstance(this);
         setContentView(R.layout.activity_main);
 
         updateListView();
-        ILBA = new ItemListBaseAdapter(this, once.getInstance(this).getItems());
+        ILBA = new ItemListBaseAdapter(this, DB.getInstance(this).getAllTasks());
 
         final ListView listView = (ListView) findViewById(R.id.listV_main);
     }
 
+    protected void onResume(){
+        super.onResume();
+        updateListView();
+    }
+
     public void updateListView(){
         ListView lv = (ListView) findViewById(R.id.listV_main);
-        ILBA = new ItemListBaseAdapter(this, once.getInstance(this).getItems());
+        ItemListBaseAdapter ILBA = new ItemListBaseAdapter(this, DB.getInstance(this).getAllTasks());
         lv.setAdapter(ILBA);
     }
 
@@ -50,10 +55,9 @@ public class MainActivity extends Activity {
     public void done(View view){
         ListView listView = (ListView) findViewById(R.id.listV_main);
         int pos = listView.getPositionForView(view);
-
-        once.removeTask(pos);
-
-        ILBA.notifyDataSetChanged();
+        ItemDetails item = (ItemDetails) listView.getItemAtPosition(pos);
+        DB.deleteTask(item);
+        // ILBA.notifyDataSetChanged();
         updateListView();
     }
 }

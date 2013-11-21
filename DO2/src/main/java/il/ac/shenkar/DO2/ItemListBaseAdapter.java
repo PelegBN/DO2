@@ -9,16 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BNP on 04/11/13.
  */
 public class ItemListBaseAdapter extends BaseAdapter {
-    private static ArrayList<ItemDetails> itemDetailsrrayList;
+    private static List<ItemDetails> itemDetailsrrayList;
 
     private LayoutInflater l_Inflater;
 
-    public ItemListBaseAdapter(Context context, ArrayList<ItemDetails> results) {
+    public ItemListBaseAdapter(Context context, List<ItemDetails> results) {
         itemDetailsrrayList = results;
         l_Inflater = LayoutInflater.from(context);
     }
