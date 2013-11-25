@@ -93,9 +93,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 KEY_ID,
                 KEY_NAME
                 // , KEY_PH_NO
-        }
-                , KEY_ID + "=?" ,
-                new String[] { String.valueOf(id) }, null, null, null, null);
+    }
+    , KEY_ID + "=?" ,
+            new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -114,7 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToLast()) {
             do {
                 ItemDetails task = new ItemDetails();
                 task.setID(Integer.parseInt(cursor.getString(0)));
@@ -122,7 +122,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 // task.setPhoneNumber(cursor.getString(2));
                 // Adding Task to list
                 taskList.add(task);
-            } while (cursor.moveToNext());
+            } while (cursor.moveToPrevious());
         }
 
         // return task list
