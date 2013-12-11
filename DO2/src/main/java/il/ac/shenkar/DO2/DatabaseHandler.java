@@ -19,7 +19,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static DatabaseHandler instance = null;
     private Context context;
-    private int counter=0;
+    //private int counter=0;
 
     public static synchronized DatabaseHandler getInstance(Context context) {
         if(instance == null) {
@@ -74,8 +74,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new task
     void addTask(ItemDetails item) {
-        item.setID(counter);
-        counter++;
+//      item.setID(counter);
+//      counter++;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, item.getName()); // Task Name

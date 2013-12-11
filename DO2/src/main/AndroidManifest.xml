@@ -33,6 +33,11 @@
 
          </activity>
 
-    </application>
+        <receiver android:name=".ReminderBroadcastReceiver">
+            <intent-filter>
+                <action android:name="il.ac.shenkar.DO2" />
+            </intent-filter>
+        </receiver>
 
+    </application>
 </manifest>

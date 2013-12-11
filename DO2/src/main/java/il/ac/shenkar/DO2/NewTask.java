@@ -2,6 +2,9 @@ package il.ac.shenkar.DO2;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.EditText;
  */
 public class NewTask extends Activity {
         public static DatabaseHandler DB;
+        public static int id=1;
         @SuppressLint("NewApi")
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -33,12 +37,19 @@ public class NewTask extends Activity {
         if (editText.getText().toString().isEmpty()) return;
         // String task=editText.getText().toString();
         ItemDetails task=new ItemDetails(editText.getText().toString());
+        task.setID(id);
         DB.addTask(task);
         editText.setText("");
+
+        Intent intent = new Intent("il.ac.shenkar.DO2");
+        intent.putExtra("Message",task.getName());
+        intent.putExtra("ID",id);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id++, intent, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+
         finish();
     }
-
-
 
     public void cancel(View view){
           finish();
